@@ -1,5 +1,5 @@
 
-## Avro Python API Reference Docs
+## Avro Python API References
 
 Avro is a Data Serialization framework that converts any data format into machine and binary format. Avro supports Python3. These documentation will guide you through the Python's Avro APIs, classes, and methods. The documentation are generated using [Sphinx](https://www.sphinx-doc.org/en/master/) and pages are built using the [Myst in Sphinx](https://myst-parser.readthedocs.io/en/v0.15.1/index.html).
 
