@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+      <title>Avro Python API Documentation</title>
+    
+          <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="_static/theme-vendors.js"></script> -->
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="next" title="Avro Schema" href="schema.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="#" class="home-link">
+    
+      <span class="site-name">avro-docs</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="#">Introduction</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">Avro Python API Documentation</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#avro-python-api-documentation" class="reference internal">Avro Python API Documentation</a></li>
+                
+                  <li class="toctree-l2"><a href="#schemas" class="reference internal">Schemas</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="schema.html" class="reference internal ">Avro Schema</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="io.html" class="reference internal ">Input and Output Utilities</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="datafile.html" class="reference internal ">DataFile Reader and Writer Python APIs</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+    
+    <li>Avro Python API Documentation</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="next">
+    <a href="schema.html"
+       title="next chapter">Avro Schema →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Avro Schema</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#record-description">Record Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#serializing-and-deserializing">Serializing and Deserializing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html#reference-api-for-classes-and-methods">Reference API for Classes and Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-name-object">Class Name(object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-names-object">Class Names(object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-namedschema-schema">Class NamedSchema(Schema)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-field-object">Class Field(object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#module-functions">Module Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#avro-exceptions-for-schema">Avro Exceptions for Schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and Output Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="io.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#validating-avro-schema">Validating Avro Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#datum-validation-exceptions">Datum Validation Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#decoder-and-encoder-class">Decoder and Encoder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#datumreader-and-datumwriter-class">DatumReader and DatumWriter Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datafile.html">DataFile Reader and Writer Python APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#class-datafilewriter">Class DataFileWriter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#read-only-properties">Read-only Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#class-datafilereader">Class DataFileReader</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Avro Python API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#avro-python-overview">Avro Python Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#schemas">Schemas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started-with-avro-python">Getting Started with Avro Python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Avro Schema</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#record-description">Record Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#serializing-and-deserializing">Serializing and Deserializing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html#reference-api-for-classes-and-methods">Reference API for Classes and Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-name-object">Class Name(object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-names-object">Class Names(object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-namedschema-schema">Class NamedSchema(Schema)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#class-field-object">Class Field(object)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#module-functions">Module Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schema.html#avro-exceptions-for-schema">Avro Exceptions for Schema</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Input and Output Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="io.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#validating-avro-schema">Validating Avro Schema</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#datum-validation-exceptions">Datum Validation Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#decoder-and-encoder-class">Decoder and Encoder Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#datumreader-and-datumwriter-class">DatumReader and DatumWriter Class</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datafile.html">DataFile Reader and Writer Python APIs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#class-datafilewriter">Class DataFileWriter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#read-only-properties">Read-only Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datafile.html#class-datafilereader">Class DataFileReader</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="avro-python-api-documentation">
+<h1>Avro Python API Documentation<a class="headerlink" href="#avro-python-api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Avro is a data serialization framework use to convert the data into compact binary format. Avro contains the data along with the schema for which the data has to be serialized or deserialized. With the combination of schema, Avro eliminates the efforts of modifying the scheme everytime the data is serialized or deserialized.
+Avro specifies two serialization encodings:</p>
+<ul class="simple">
+<li><p>Binary Format</p></li>
+<li><p>JSON(JavaScript Object Notation) Format</p></li>
+</ul>
+<p>Avro implements with dynamically types language such as Python when data serialization is required at the runtime. For more information, see <a class="reference external" href="https://avro.apache.org/docs/current/">Avro Introduction</a>.</p>
+<section id="avro-python-overview">
+<h2>Avro Python Overview<a class="headerlink" href="#avro-python-overview" title="Permalink to this headline">¶</a></h2>
+<p>Avro provides support for the Python library which implements parts of the <a class="reference external" href="https://avro.apache.org/docs/1.11.1/specification/_print/">Avro Specification</a>. The library includes the following functionality:</p>
+<ul class="simple">
+<li><p>A schema parser, which can parse Avro schema (written in JSON) into a Schema object.</p></li>
+<li><p>Encoders and decoders to encode data into Avro format and decode it back using primitive functions.</p></li>
+<li><p>Streams for storing and reading data, which Encoders and Decoders use.</p></li>
+</ul>
+</section>
+</section>
+<section id="schemas">
+<h1>Schemas<a class="headerlink" href="#schemas" title="Permalink to this headline">¶</a></h1>
+<p>Avro comes with schemas that is fast and reliable for when the serialization happens for the data. This also facilitates with dynamic, scripting languages, since the data is combined with its schema.
+When Avro data is stored in a file, its schema travels with it, so that files can be processed easily.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>For more information, see <a class="reference internal" href="schema.html"><span class="doc">Avro Schema</span></a>.</p>
+</div>
+<p>Using Avro, you can create schemas that contains primitive and complex data types. See <a class="reference external" href="https://avro.apache.org/docs/1.8.2/spec.html#schemas">Avro Data Types</a> for declaring a schema.</p>
+<section id="getting-started-with-avro-python">
+<h2>Getting Started with Avro Python<a class="headerlink" href="#getting-started-with-avro-python" title="Permalink to this headline">¶</a></h2>
+<p>To get started with Avro, you can follow the steps described in <a class="reference external" href="https://avro.apache.org/docs/1.11.1/getting-started-python/">Getting Started Guide</a>.</p>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="next">
+    <a href="schema.html"
+       title="next chapter">Avro Schema →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2022, Dev Prakash Sharma.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

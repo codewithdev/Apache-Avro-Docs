@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+      <title>DataFile Reader and Writer Python APIs</title>
+    
+          <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="_static/theme-vendors.js"></script> -->
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="prev" title="Input and Output Utilities" href="io.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">avro-docs</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#">Introduction</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="index.html" class="reference internal ">Avro Python API Documentation</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="schema.html" class="reference internal ">Avro Schema</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="io.html" class="reference internal ">Input and Output Utilities</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">DataFile Reader and Writer Python APIs</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#overview" class="reference internal">Overview</a></li>
+                
+                  <li class="toctree-l2"><a href="#class-datafilewriter" class="reference internal">Class DataFileWriter</a></li>
+                
+                  <li class="toctree-l2"><a href="#read-only-properties" class="reference internal">Read-only Properties</a></li>
+                
+                  <li class="toctree-l2"><a href="#class-datafilereader" class="reference internal">Class DataFileReader</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>DataFile Reader and Writer Python APIs</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="io.html"
+       title="previous chapter">← Input and Output Utilities</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="datafile-reader-and-writer-python-apis">
+<h1>DataFile Reader and Writer Python APIs<a class="headerlink" href="#datafile-reader-and-writer-python-apis" title="Permalink to this headline">¶</a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The DataFileReader is an iterator that returns dicts corresponding to the serialized items. The Avro data is stored in a file along with its schema, so that files can be processed easily. The Avro data is written using the <a class="reference external" href="http://localhost:8000/io.html#datumreader-and-datumwriter-class">DatumWriter</a> class. The Avro DataFileReader and DataFileWriter provides classes and methods to read and write Avro data files. Since each datum belongs to the same schema(<a class="reference external" href="http://localhost:8000/io.html#validating-avro-schema">See Schema Validation</a>), the data is categorized into groups called “blocks”. A synchronization marker is generated between these blocks to read or write Avro data files.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://localhost:8000/io.html#validating-avro-schema">Avro Validation Python APIs</a></p></li>
+<li><p><a class="reference external" href="http://localhost:8000/io.html#datumreader-and-datumwriter-class">Avro Input/Output utilities and functions for DatumWriter and DatumReader Classes</a></p></li>
+</ul>
+</div>
+</section>
+<section id="class-datafilewriter">
+<h2>Class DataFileWriter<a class="headerlink" href="#class-datafilewriter" title="Permalink to this headline">¶</a></h2>
+<p>DataFileWriter class implements writer interface for Avro data files. Since the data is grouped into blocks, so a synchronization is introduces between the blocks to split the files. This class contains the writer object that collect metadata and writes a datum to the buffer(if the schema exists).</p>
+<h3><i>DataFileWriter(object)</i></h3>
+<p>This class writes the Avro data files. If the schema exist, then we write to the file using the <code class="docutils literal notranslate"><span class="pre">DatumFileWriter</span></code>.</p>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DataFileWriter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">GenerateSyncMarker</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">SYNC_SIZE</span><span class="p">)</span>
+</pre></div>
+</div>
+<h3><i>__init__(self, writer, datum_writer, writer_schema=None,codec='null')</i></h3>
+<p>Construct a new DataFileReader instance and create metadata property. If the schema is not presents, we pass arguments to append property to the data file. The <code class="docutils literal notranslate"><span class="pre">__init__()</span></code> takes three arguments making the encoder to write to the file.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">writer</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>Object to write into.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">datum_writer</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">map</span></code></p></td>
+<td><p>Datum to write into. If the schema is present, the datum is appended to the file. Otherwise it is added to a new Avro data file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">writer_schema</span></code></p></td>
+<td><p>object</p></td>
+<td><p>By default None. Pass the schema object to write to the datum which is appended to the existing schema.</p></td>
+</tr>
+</tbody>
+</table>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+      <span class="bp">self</span><span class="p">,</span>
+      <span class="n">writer</span><span class="p">,</span>
+      <span class="n">datum_writer</span><span class="p">,</span>
+      <span class="n">writer_schema</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+      <span class="n">codec</span><span class="o">=</span><span class="s1">&#39;null&#39;</span><span class="p">,</span>
+  <span class="p">):</span>
+    
+    <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span> <span class="o">=</span> <span class="n">writer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_encoder</span> <span class="o">=</span> <span class="n">avro_io</span><span class="o">.</span><span class="n">BinaryEncoder</span><span class="p">(</span><span class="n">writer</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_datum_writer</span> <span class="o">=</span> <span class="n">datum_writer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_writer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_encoder</span> <span class="o">=</span> <span class="n">avro_io</span><span class="o">.</span><span class="n">BinaryEncoder</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer_writer</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_block_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Ensure we have a writer that accepts bytes:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Whether the header has already been written:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_header_written</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">writer_schema</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">codec</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">VALID_CODECS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DataFileException</span><span class="p">(</span><span class="s1">&#39;Unknown codec: </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">codec</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_sync_marker</span> <span class="o">=</span> <span class="n">DataFileWriter</span><span class="o">.</span><span class="n">GenerateSyncMarker</span><span class="p">()</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">SetMeta</span><span class="p">(</span><span class="s1">&#39;avro.codec&#39;</span><span class="p">,</span> <span class="n">codec</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">SetMeta</span><span class="p">(</span><span class="s1">&#39;avro.schema&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">writer_schema</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">datum_writer</span><span class="o">.</span><span class="n">writer_schema</span> <span class="o">=</span> <span class="n">writer_schema</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1"># open writer for reading to collect metadata</span>
+      <span class="n">dfr</span> <span class="o">=</span> <span class="n">DataFileReader</span><span class="p">(</span><span class="n">writer</span><span class="p">,</span> <span class="n">avro_io</span><span class="o">.</span><span class="n">DatumReader</span><span class="p">())</span>
+
+      <span class="c1"># TODO: collect arbitrary metadata</span>
+      <span class="c1"># collect metadata</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_sync_marker</span> <span class="o">=</span> <span class="n">dfr</span><span class="o">.</span><span class="n">sync_marker</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">SetMeta</span><span class="p">(</span><span class="s1">&#39;avro.codec&#39;</span><span class="p">,</span> <span class="n">dfr</span><span class="o">.</span><span class="n">GetMeta</span><span class="p">(</span><span class="s1">&#39;avro.codec&#39;</span><span class="p">))</span>
+
+      <span class="c1"># get schema used to write existing file</span>
+      <span class="n">schema_from_file</span> <span class="o">=</span> <span class="n">dfr</span><span class="o">.</span><span class="n">GetMeta</span><span class="p">(</span><span class="s1">&#39;avro.schema&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">SetMeta</span><span class="p">(</span><span class="s1">&#39;avro.schema&#39;</span><span class="p">,</span> <span class="n">schema_from_file</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">datum_writer</span><span class="o">.</span><span class="n">writer_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="n">schema_from_file</span><span class="p">)</span>
+
+      <span class="c1"># seek to the end of the file and prepare for writing</span>
+      <span class="n">writer</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_header_written</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</section>
+<section id="read-only-properties">
+<h2>Read-only Properties<a class="headerlink" href="#read-only-properties" title="Permalink to this headline">¶</a></h2>
+<h3><i>@property</i> writer(self)</h3>
+<p>Returns the writer that has been used by encoder to write to the file.</p>
+<h3><i>@property</i> encoder(self)</h3>
+<p>Returns the encoder that writes to the file and append the metadata to the datum associated with the schema.</p>
+<h3><i>@property</i> datum_writer(self)</h3>
+<p>Returns the datum writer that writes to the file.</p>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">writer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_writer</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">encoder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encoder</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">datum_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datum_writer</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">buffer_encoder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_encoder</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">sync_marker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sync_marker</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">meta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span>
+
+  <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span>
+
+  <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+    <span class="c1"># Perform a close if there&#39;s no exception</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+  <span class="nd">@property</span>
+  <span class="k">def</span> <span class="nf">block_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_block_count</span>
+
+</pre></div>
+</div>
+<h3><i>GetMeta(self, key)</i></h3>
+<p>Returns the metadata associated with the key. It takes <code class="docutils literal notranslate"><span class="pre">key</span></code> as a parameter for which associated metadata is returned.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">key</span></code></p></td>
+<td><p>byte value</p></td>
+<td><p>Key of the metadata to report the value of.</p></td>
+</tr>
+</tbody>
+</table>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GetMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<h3><i>SetMeta(self, key, value)</i></h3>
+<p>Sets the metadata value for the given key. To set the metadata at the given <code class="docutils literal notranslate"><span class="pre">key</span></code>, pass the <code class="docutils literal notranslate"><span class="pre">value</span></code> that has to be mapped.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">key</span></code></p></td>
+<td><p>bytes</p></td>
+<td><p>Key of the metadata to report the value of.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bytes</span></code> or <code class="docutils literal notranslate"><span class="pre">string</span></code></p></td>
+<td><p>Value that needs to set at a particular <code class="docutils literal notranslate"><span class="pre">key</span></code> of the metadata. The value passed as <code class="docutils literal notranslate"><span class="pre">string</span></code> are automatically converted into <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">SetMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">),</span> <span class="p">(</span>
+        <span class="s1">&#39;Invalid metadata value for key </span><span class="si">%r</span><span class="s1">: </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+<h3><i>_WriteHeader(self)</i></h3>
+<p>Writes Avro data file header.</p>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="k">def</span> <span class="nf">_WriteHeader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;meta&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="p">,</span>
+        <span class="s1">&#39;sync&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sync_marker</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+        <span class="s1">&#39;Writing Avro data file header:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s1">Avro header schema:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">header</span><span class="p">,</span> <span class="n">META_SCHEMA</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">datum_writer</span><span class="o">.</span><span class="n">write_data</span><span class="p">(</span><span class="n">META_SCHEMA</span><span class="p">,</span> <span class="n">header</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_header_written</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</section>
+<section id="class-datafilereader">
+<h2>Class DataFileReader<a class="headerlink" href="#class-datafilereader" title="Permalink to this headline">¶</a></h2>
+<p>DataFileReader class reads the file written by <code class="docutils literal notranslate"><span class="pre">DataFileWriter</span></code>. The class contains the methods and constructors to initialize the reader to read a specific Avro file using the <code class="docutils literal notranslate"><span class="pre">datum_reader</span></code>.</p>
+<h3><i>__init__(self, reader,datum_reader)</i></h3>
+<p>Initializes a new data file reader. It takes two arguments, <code class="docutils literal notranslate"><span class="pre">reader</span></code> to open the file to read using the <code class="docutils literal notranslate"><span class="pre">datum_reader</span></code>.</p>
+<h4>Parameter Description</h4>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reader</span></code></p></td>
+<td><p>bytes</p></td>
+<td><p>Open file to read data from.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">datum_reader</span></code></p></td>
+<td><p>bytes</p></td>
+<td><p>Avro datum reader</p></td>
+</tr>
+</tbody>
+</table>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reader</span><span class="p">,</span> <span class="n">datum_reader</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_reader</span> <span class="o">=</span> <span class="n">reader</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_raw_decoder</span> <span class="o">=</span> <span class="n">avro_io</span><span class="o">.</span><span class="n">BinaryDecoder</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_datum_decoder</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Maybe reset at every block.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_datum_reader</span> <span class="o">=</span> <span class="n">datum_reader</span>
+
+    <span class="c1"># read the header: magic, meta, sync</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_read_header</span><span class="p">()</span>
+
+    <span class="c1"># ensure codec is valid</span>
+    <span class="n">avro_codec_raw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetMeta</span><span class="p">(</span><span class="s1">&#39;avro.codec&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">avro_codec_raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="s2">&quot;null&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="o">=</span> <span class="n">avro_codec_raw</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">VALID_CODECS</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">DataFileException</span><span class="p">(</span><span class="s1">&#39;Unknown codec: </span><span class="si">%s</span><span class="s1">.&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">codec</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_file_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_GetInputFileLength</span><span class="p">()</span>
+
+    <span class="c1"># get ready to read</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_block_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">datum_reader</span><span class="o">.</span><span class="n">writer_schema</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">schema</span><span class="o">.</span><span class="n">Parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetMeta</span><span class="p">(</span><span class="n">SCHEMA_KEY</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
+
+</pre></div>
+</div>
+<h3><i>GetMeta(self, key)</i></h3>
+<p>Returns the metadata associated with the <code class="docutils literal notranslate"><span class="pre">key</span></code> passed to it. It takes <code class="docutils literal notranslate"><span class="pre">key</span></code> of the metadata as an argument. The value of the metadata is returned in <code class="docutils literal notranslate"><span class="pre">bytes</span></code>.</p>
+<p><strong>Return type</strong>: <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">key</span></code></p></td>
+<td><p>byte value</p></td>
+<td><p>Key of the metadata.</p></td>
+</tr>
+</tbody>
+</table>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GetMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</pre></div>
+</div>
+<h3><i>SetMeta(self, key,value)</i></h3>
+<p>Sets the metadata value at a particular metadata <code class="docutils literal notranslate"><span class="pre">key</span></code>. Always pass the matadate <code class="docutils literal notranslate"><span class="pre">key</span></code> to set the <code class="docutils literal notranslate"><span class="pre">value</span></code> for it.</p>
+<p><strong>Return type</strong>: <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">key</span></code></p></td>
+<td><p>bytes</p></td>
+<td><p>Key of the metadata.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p>bytes or string</p></td>
+<td><p>Metadata value to set as bytes.</p></td>
+</tr>
+</tbody>
+</table>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">SetMeta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+      <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_meta</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+<h3><i>_GetInputFileLength(self)</i></h3>
+<p>Returns the length of the input file.</p>
+<p><strong>Return type</strong>: length in <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
+<h4>Code Example</h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_GetInputFileLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">current_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">file_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reader</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">current_pos</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_length</span>
+
+</pre></div>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://localhost:8000/io.html#datumreader-and-datumwriter-class">Avro DatumReader</a>.</p></li>
+<li><p><a class="reference external" href="http://localhost:8000/schema.html">Avro Schema Python APIs</a></p></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="io.html"
+       title="previous chapter">← Input and Output Utilities</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2022, Dev Prakash Sharma.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>
