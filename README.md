@@ -9,7 +9,7 @@ Avro is a Data Serialization framework that converts any data format into machin
 - Open the `avro` directory with an IDE (Recommended Pycharm).
 - Open the terminal and type `pip install -r requirement.txt` to install required packages.
 - You will see `conf.py` a configuration file which you can use to modify the template, extensions, and other configuration of Sphinx.
-- To play with the documentation, in the terminal, type `make html` to create HTML version of pages. The HTML version of the pages are always generated and stored within the build > html folder.
+- To play with the documentation, in the terminal, type `make html` to create HTML version of pages. The HTML version of the pages are always generated and stored within the **build** > **html folder**.
 
 ## Running Docs locally
 
