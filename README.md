@@ -11,6 +11,10 @@ Avro is a Data Serialization framework that converts any data format into machin
 - You will see `conf.py` a configuration file which you can use to modify the template, extensions, and other configuration of Sphinx.
 - To play with the documentation, in the terminal, type `make html` to create HTML version of pages. The HTML version of the pages are always generated and stored within the **build** > **html folder**.
 
+## Installing Sphinx docs using Python Virtual Environment
+
+Create a virtual environment using `python3 -m venv venv.` If you are using [PyCharm IDE](https://www.jetbrains.com/pycharm/), by default it creates a new virtual environment. You can choose to select the virtual environment where you want to install the librarires.
+
 ## Running Docs locally
 
 Sphinx is a Open Source Python documentation generator. The Avro documentation pages are generated using the markdown (Myst) library in Sphinx. Once the `.md` pages are converted into HTML, you can see it live on your local server by typing;
