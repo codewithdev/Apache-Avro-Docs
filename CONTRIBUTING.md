@@ -5,6 +5,11 @@ Thank you for your interest in contributing to the Apache Avro Documentation! Du
 > [!NOTE]
 > A friendly note about Hacktoberfest Participation
 > If you’re participating in Hacktoberfest and want to contribute to this project, ensure to sign up on the Hacktoberfest website. This ensures that your contributions are counted towards the event.
+>
+> We appreciate your time and effort in contributing and helping us improve this project.
+> 🦈 Happy coding!!
+
+
 
 
 ## How to Contribute?
